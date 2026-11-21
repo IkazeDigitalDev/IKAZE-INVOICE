@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IKAZE INVOICE — Calculate. Invoice. Get Paid.</title>
+<meta name="description" content="Simple invoicing and calculation tool by IKAZE DIGITAL.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231769AA'/%3E%3Cpath d='M6 12h14a3 3 0 1 0-3-3M6 18h18a3 3 0 1 1-3 3M6 24h9' stroke='%23fff' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#10243A;--blue:#1769AA;--pb:#1769AA;--em:#15966A;--gold:#E5B94F;--bg:#F5F7FA;--card:#fff;--tx:#172638;--mu:#758398;--bd:#E5EAF0;--ok:#16A36A;--wn:#E5A12B;--er:#D94C4C;--in:#fff;--sh:0 1px 2px #10243a12,0 8px 24px #10243a0f}
+[data-th=dark]{--bg:#0b1727;--card:#132840;--tx:#eaf1f8;--mu:#9db0c6;--bd:#244059;--blue:#5fb0ee;--pb:#1f7bc4;--em:#2fc795;--in:#0e1f33;--sh:0 8px 24px #0006}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;font:15px/1.5 Manrope,system-ui,Segoe UI,sans-serif;background:var(--bg);color:var(--tx)}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{margin:0;letter-spacing:-.02em}
+.w{max-width:1180px;margin:0 auto;padding:0 18px}
+header{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--bd)}
+.hb{display:flex;align-items:center;gap:14px;height:62px}
+.logo{display:flex;align-items:center;gap:9px;background:none;border:0;cursor:pointer;padding:0}
+.logo b{display:block;font-size:18px;letter-spacing:.04em;line-height:1;color:var(--tx)}.logo small{display:block;font-size:10px;letter-spacing:.28em;color:var(--em);font-weight:700}
+nav{display:flex;gap:2px;margin-left:12px}
+nav button{background:none;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;color:var(--mu);font-weight:600}
+nav button:hover{background:var(--bg)}nav button.on{color:var(--blue);background:var(--bg)}
+.sp{flex:1}
+select,input,textarea{background:var(--in);border:1px solid var(--bd);border-radius:10px;padding:10px 11px;min-height:44px;width:100%;transition:.15s}
+textarea{min-height:70px;resize:vertical}
+select.sm{width:auto;min-height:40px;padding:6px 8px}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:0;border-color:var(--blue);box-shadow:0 0 0 3px #1769aa33}
+input[type=checkbox]{width:20px;min-height:20px;height:20px;accent-color:var(--em)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--bd);background:var(--card);cursor:pointer;font-weight:700;transition:.15s}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--sh)}.btn:active{transform:scale(.97)}
+.btn.p{background:var(--pb);border-color:var(--pb);color:#fff}.btn.g{background:var(--em);border-color:var(--em);color:#fff}.btn.d{color:var(--er);border-color:var(--er)}.btn.s{min-height:34px;padding:0 10px;font-size:13px}
+.ic{width:44px;padding:0}
+.hero{padding:34px 0 18px}.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.1;max-width:720px;color:var(--tx)}
+.hero p{max-width:620px;color:var(--mu);margin:12px 0}.hero .bs{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.tr{display:flex;gap:8px 20px;flex-wrap:wrap;color:var(--mu);font-size:13px;font-weight:600}.tr span:before{content:"✓ ";color:var(--em)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px;box-shadow:var(--sh)}
+.card h2{font-size:20px}.card .sub{color:var(--mu);margin:2px 0 14px}
+.cg{display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:start}
+.ig{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.stk{display:grid;gap:18px}.sticky{position:sticky;top:78px}
+.row{display:grid;grid-template-columns:1fr 84px 120px 110px 78px;gap:8px;align-items:center;margin-bottom:8px}
+.row.h{color:var(--mu);font-size:12px;font-weight:700;margin-bottom:4px}
+.amt{text-align:right;font-weight:800;font-variant-numeric:tabular-nums}.rb{display:flex;gap:4px}
+.rb button{width:36px;height:40px;border:1px solid var(--bd);border-radius:8px;background:var(--card);cursor:pointer;color:var(--mu)}.rb button:hover{color:var(--er)}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--bd)}
+.ctl .g2{display:flex;gap:6px;align-items:center}.ctl label.ck{display:flex;gap:8px;align-items:center;font-weight:700}
+.note{color:var(--mu);font-size:12px;margin:6px 0 0}
+.sum{display:grid;gap:8px}.sum div{display:flex;justify-content:space-between;gap:10px}.sum span{color:var(--mu)}.sum b{font-variant-numeric:tabular-nums}
+.sum .tt{border-top:2px solid var(--bd);padding-top:12px;margin-top:4px;align-items:baseline}.sum .tt b{font-size:clamp(26px,5vw,32px);color:var(--em);line-height:1.1;text-align:right}
+.bg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.bg .full{grid-column:1/-1}
+label{display:grid;gap:4px;font-size:13px;font-weight:700;color:var(--mu)}label input,label select,label textarea{color:var(--tx);font-weight:500}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fg .full{grid-column:1/-1}
+.sec{padding:26px 0}.sec>h2{font-size:22px;margin-bottom:12px}
+.tl{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}.tl .card{padding:16px;display:grid;gap:8px}.tl h3{font-size:16px}
+.out{background:var(--bg);border-radius:10px;padding:10px;font-weight:700;min-height:44px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}.stats .card{padding:14px}.stats small{color:var(--mu);font-weight:700}.stats b{display:block;font-size:20px}.stats em{display:block;font-style:normal;font-weight:700;font-size:14px}
+.fl{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.fl button{border:1px solid var(--bd);background:var(--card);border-radius:99px;padding:6px 14px;cursor:pointer;font-weight:700;min-height:36px}.fl button.on{background:var(--pb);color:#fff;border-color:var(--pb)}
+table.t{width:100%;border-collapse:collapse}.t th{text-align:left;color:var(--mu);font-size:12px;padding:8px}.t td{padding:10px 8px;border-top:1px solid var(--bd);vertical-align:middle}
+.tw{overflow-x:auto}.acts{display:flex;gap:4px;flex-wrap:wrap}
+.bdg{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:800;border:1px solid currentColor}
+.s-Paid{color:var(--ok)}.s-Unpaid{color:var(--wn)}.s-Overdue{color:var(--er)}.s-Draft{color:var(--mu)}.s-Cancelled{color:var(--mu);text-decoration:line-through}
+.empty{text-align:center;padding:32px 12px;color:var(--mu)}.empty .e{font-size:34px}.empty h3{color:var(--tx);margin:6px 0}
+.back{margin:20px 0 10px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.lgp{display:flex;gap:10px;align-items:center}.lgp img{height:48px;max-width:120px;object-fit:contain;border:1px solid var(--bd);border-radius:8px;padding:3px;background:#fff}
+.sheet{background:#fff;color:#172638;border:1px solid var(--bd);border-radius:6px;padding:28px;font-size:13px;line-height:1.5;overflow-x:auto}
+.sheet h1{font-size:26px;color:#1769AA;letter-spacing:.06em}.sheet h2{font-size:18px;color:#10243A}.sheet p{margin:2px 0;color:#4a5b70}
+.sheet .s1{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:3px solid #1769AA;padding-bottom:14px}.sheet .r{text-align:right}
+.sheet .lg{height:54px;max-width:150px;object-fit:contain;display:block;margin-bottom:6px}
+.sheet table{width:100%;border-collapse:collapse;margin:16px 0;min-width:380px}.sheet th{background:#10243A;color:#fff;text-align:left;padding:8px;font-size:12px}.sheet td{padding:8px;border-bottom:1px solid #e5eaf0}
+.sheet .n{text-align:right;white-space:nowrap}.sheet .tots{margin-left:auto;width:min(280px,100%)}.sheet .tots div{display:flex;justify-content:space-between;padding:3px 0}
+.sheet .gt{border-top:2px solid #10243A;margin-top:4px;padding-top:6px!important;font-size:16px;font-weight:800;color:#15966A}
+.sheet .ft{margin-top:22px;padding-top:10px;border-top:1px solid #e5eaf0;text-align:center;font-size:11px;color:#758398}
+.sheet small{color:#758398;font-weight:700;letter-spacing:.08em}
+footer{background:var(--navy);color:#cbd6e3;margin-top:30px;padding:28px 0 90px}footer a,footer button.l{color:#fff;background:none;border:0;cursor:pointer;padding:0;font:inherit;margin-right:14px;text-decoration:underline}footer p{margin:6px 0}footer b{color:#fff}
+dialog{border:1px solid var(--bd);border-radius:16px;background:var(--card);color:var(--tx);max-width:min(760px,94vw);width:100%;padding:22px;box-shadow:0 20px 60px #0005;max-height:92vh;overflow:auto}
+dialog::backdrop{background:#0a1a2cb0}dialog[open]{animation:pop .18s}@keyframes pop{from{opacity:0;transform:scale(.96)}}
+.ac{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+#toasts{position:fixed;right:14px;top:72px;z-index:99;display:grid;gap:8px;max-width:calc(100vw - 28px)}
+.toast{background:var(--navy);color:#fff;padding:11px 16px;border-radius:12px;box-shadow:var(--sh);border-left:4px solid var(--em);animation:pop .2s}.toast.e{border-color:var(--er)}
+.vbg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:#f5f5f4;pointer-events:none}
+.vbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 2000ms ease-in-out;will-change:opacity}
+.vbg:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.5),rgba(255,255,255,.2),transparent)}
+[data-th=dark] .vbg:after{background:linear-gradient(to bottom,rgba(11,23,39,.85),rgba(11,23,39,.65),rgba(11,23,39,.4))}
+#pa{display:none}
+.pvb{display:none}
+.av{width:26px;height:26px;border-radius:50%;background:var(--em);color:#fff;display:inline-grid;place-items:center;font-size:13px;font-weight:800}
+#acct{gap:8px}
+@media(max-width:640px){#acct .at{display:none}#acct{width:44px;padding:0}}
+@media(max-width:480px){.hb{gap:6px}select.sm{font-size:12px;padding:4px}.logo svg{width:30px;height:30px}.logo b{font-size:16px}}
+@media(max-width:980px){.cg,.ig{grid-template-columns:1fr}.sticky{position:static}.pvc{display:none}.pvc.show{display:block}.pvb{display:inline-flex}}
+@media(max-width:820px){nav{position:fixed;bottom:0;left:0;right:0;margin:0;background:var(--card);border-top:1px solid var(--bd);justify-content:space-around;z-index:30;padding:4px 2px}nav button{padding:8px 4px;font-size:11px;flex:1;min-height:44px}.hd{display:none}}
+@media(max-width:640px){.row{grid-template-columns:1fr 1fr 1fr auto}.row .d{grid-column:1/-1}.row.h{display:none}.fg{grid-template-columns:1fr}.card{padding:15px}.sheet{padding:16px}}
+@page{size:A4;margin:12mm}
+@media print{body>*:not(#pa){display:none!important}#pa{display:block!important}body{background:#fff}#pa .sheet{border:0;padding:0;overflow:visible}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="vbg" aria-hidden="true"><video id="v1" muted playsinline preload="auto" style="opacity:1" src="https://strvid.nyc3.cdn.digitaloceanspaces.com/motionsite/nature_peace.mp4"></video><video id="v2" muted playsinline preload="auto" style="opacity:0" src="https://strvid.nyc3.cdn.digitaloceanspaces.com/motionsite/nature_peace.mp4"></video></div>
+<header><div class="w hb">
+<button class="logo" data-go="home" aria-label="IKAZE INVOICE home"><svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#1769AA"/><path d="M6 12h14a3 3 0 1 0-3-3M6 18h18a3 3 0 1 1-3 3M6 24h9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="26" cy="8" r="2" fill="#E5B94F"/></svg><span><b>IKAZE</b><small>INVOICE</small></span></button>
+<nav aria-label="Main"><button data-go="home" data-i="nHome">Home</button><button data-go="calc" data-i="nCalc">Calculator</button><button data-go="list" data-i="nInv">My Invoices</button><button data-go="tools" data-i="nTools">Smart Tools</button><button data-go="set" data-i="nSet">Settings</button></nav>
+<span class="sp"></span>
+<select class="sm" id="lang" aria-label="Language"><option value="en">English</option><option value="rw">Kinyarwanda</option><option value="fr">Français</option><option value="sw">Kiswahili</option></select>
+<button class="btn ic" id="th" aria-label="Toggle dark mode">◐</button>
+<button class="btn" id="acct" aria-haspopup="dialog"></button>
+<button class="btn g hd" id="nw" data-i="newInv">New Invoice</button>
+</div></header>
+
+<main>
+<!-- CALCULATOR VIEW -->
+<div class="view" id="v-calc"><div class="w">
+<section class="hero" id="top"><h1 data-i="hT">Your Business. Your Prices. Your Invoice.</h1>
+<p data-i="hD">Create professional invoices, calculate costs, add discounts or taxes, and prepare clear bills for your customers — all in one simple workspace.</p>
+<p data-i="hS">No complicated accounting. Just simple, accurate calculations.</p>
+<div class="bs"><button class="btn p" data-go="calc" data-i="start">Start Calculating</button><button class="btn" data-go="inv" data-i="create">Create Invoice</button></div>
+<div class="tr"><span data-i="f1">Fast calculations</span><span data-i="f2">Professional invoices</span><span data-i="f3">No complicated setup</span><span data-i="f4">Mobile friendly</span></div></section>
+<section id="calc" class="cg">
+<div class="card"><h2 data-i="calcT">Invoice Calculator</h2><p class="sub" data-i="calcS">Calculate your goods, services, discounts, and final total.</p>
+<div class="row h"><span data-i="desc">Description</span><span data-i="qty">Qty</span><span data-i="price">Unit price</span><span class="amt" data-i="amount">Amount</span><span></span></div>
+<div id="r1"></div>
+<button class="btn" data-act="add">＋ <span data-i="addItem">Add Item</span></button>
+<div class="ctl"></div><p class="note" data-i="taxNote">Tax is optional. Enter the rate applicable to your transaction. Currency changes the label only; no conversion happens.</p></div>
+<div class="card sticky"><div class="sum"></div>
+<div class="bg"><button class="btn g full" data-act="toInv" data-i="create">Create Invoice</button><button class="btn" data-act="saveCalc" data-i="saveCalc">Save Calculation</button><button class="btn" data-act="printSum" data-i="printSum">Print Summary</button><button class="btn" data-act="clear" data-i="clear">Clear Calculator</button><button class="btn" data-act="reset" data-i="reset">Reset</button></div></div>
+</section>
+<section class="sec"><div class="card"><h2 data-i="savedCalcs">Saved calculations</h2><div id="calcs" class="tw"></div></div></section>
+<section class="sec" id="tools"><h2 data-i="nTools">Smart Tools</h2><div class="tl" id="tl"></div></section>
+</div></div>
+
+<!-- INVOICE VIEW -->
+<div class="view" id="v-inv" hidden><div class="w">
+<div class="back"><h2 data-i="create">Create Invoice</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn pvb" id="pvb" data-i="prev">Preview Invoice</button><button class="btn" data-go="calc" data-i="nCalc">Calculator</button></div></div>
+<div class="ig"><div class="stk" id="ed"></div>
+<div class="pvc sticky" id="pvc"><div class="bg" style="margin:0 0 12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))"><button class="btn p" data-act="saveInv" data-i="save">Save Invoice</button><button class="btn" data-act="pdf" data-i="pdf">Download PDF</button><button class="btn" data-act="printInv" data-i="print">Print Invoice</button><button class="btn g" data-act="wa" data-i="wa">Share via WhatsApp</button><button class="btn" data-act="copy" data-i="copy">Copy Invoice Summary</button><button class="btn" data-act="share" data-i="share">Share Invoice</button></div><div id="pv"></div></div></div>
+</div></div>
+
+<!-- LIST VIEW -->
+<div class="view" id="v-list" hidden><div class="w"><div class="back"><h2 data-i="nInv">My Invoices</h2><button class="btn g" id="nw2" data-i="newInv">New Invoice</button></div>
+<p class="note" id="sn" style="margin:0 0 10px"></p>
+<div class="stats" id="stats"></div>
+<div class="card"><input id="q" type="search" placeholder="Search invoice number, customer, business" data-ph="search"><div class="fl" id="fl"></div><div class="tw" id="lst"></div></div></div></div>
+
+<!-- SETTINGS VIEW -->
+<div class="view" id="v-set" hidden><div class="w"><div class="back"><h2 data-i="nSet">Settings</h2></div>
+<div class="ig"><div class="stk"><div class="card"><h3 data-i="bizD">Business Profile</h3><p class="sub" data-i="bizN">Edit your business details in the invoice editor, then save them once.</p><button class="btn p" data-act="toBiz" data-i="editBiz">Edit business details</button></div>
+<div class="card"><h3 data-i="pref">Invoice preferences</h3><div class="fg" id="pf" style="margin-top:10px"></div><button class="btn g" style="margin-top:12px" data-act="savePref" data-i="saveSet">Save settings</button></div></div>
+<div class="stk"><div class="card"><h3 data-i="data">Your data</h3><p class="sub" id="dnote"></p><div class="bg" style="margin:0"><button class="btn" data-act="exp" data-i="exp">Export My Data</button><button class="btn" data-act="imp" data-i="imp">Import My Data</button><button class="btn d full" data-act="wipe" data-i="wipe">Clear All My Data</button></div><input type="file" id="impf" accept=".json,application/json" hidden></div>
+<div class="card" id="about"><h3>About IKAZE INVOICE</h3><p class="sub">Calculate. Invoice. Get Paid.<br>A simple invoicing and calculation tool by IKAZE DIGITAL. It creates invoices and does not process payments. Tax fields are optional and do not claim compliance with any tax authority.</p><a href="https://ikaze-digital.vercel.app/" target="_blank" rel="noopener">ikaze-digital.vercel.app</a></div></div></div></div></div>
+</main>
+
+<footer><div class="w"><b>IKAZE INVOICE</b><p>Calculate. Invoice. Get Paid.</p><p>A simple invoicing tool designed for freelancers, businesses, creatives, and entrepreneurs.</p>
+<p><button class="l" data-go="home">Home</button><button class="l" data-go="calc">Calculator</button><button class="l" data-go="list">My Invoices</button><button class="l" data-go="tools">Smart Tools</button><button class="l" data-go="set">Settings</button><button class="l" data-go="about">About</button></p>
+<p>Designed &amp; Developed by IKAZE DIGITAL — Building Africa's Digital Future.<br><a href="https://ikaze-digital.vercel.app/" target="_blank" rel="noopener">https://ikaze-digital.vercel.app/</a></p><p>© <span id="yr"></span> IKAZE DIGITAL</p></div></footer>
+<dialog id="dlg"></dialog><div id="toasts" aria-live="polite" role="status"></div><div id="pa"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+"use strict";
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const BASE={inv:'ikaze_invoice_invoices',biz:'ikaze_invoice_business',set:'ikaze_invoice_settings',draft:'ikaze_invoice_draft',calcs:'ikaze_invoice_calcs'};
+const K={...BASE};
+const ns=u=>{for(const k in BASE)K[k]=BASE[k]+(u?':'+u:'')};
+const mem={};
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):(mem[k]??d)}catch(e){return mem[k]??d}};
+let warned=0;
+const sv=(k,v)=>{mem[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){if(!warned){warned=1;toast(t('storeErr'),1)}}cloudPush(k,v)};
+const rm=k=>{delete mem[k];try{localStorage.removeItem(k)}catch(e){}};
+/* ---------- i18n ---------- */
+const PK={
+en:`nHome=Home|nCalc=Calculator|nInv=My Invoices|nTools=Smart Tools|nSet=Settings|newInv=New Invoice|hT=Your Business. Your Prices. Your Invoice.|hD=Create professional invoices, calculate costs, add discounts or taxes, and prepare clear bills for your customers — all in one simple workspace.|hS=No complicated accounting. Just simple, accurate calculations.|start=Start Calculating|create=Create Invoice|f1=Fast calculations|f2=Professional invoices|f3=No complicated setup|f4=Mobile friendly|calcT=Invoice Calculator|calcS=Calculate your goods, services, discounts, and final total.|desc=Description|qty=Quantity|price=Unit price|amount=Amount|addItem=Add Item|clear=Clear Calculator|reset=Reset|saveCalc=Save Calculation|printSum=Print Summary|items=Items|sub=Subtotal|disc=Discount|tax=Tax|taxRate=Tax rate|taxAmt=Tax amount|total=TOTAL|Draft=Draft|Unpaid=Unpaid|Paid=Paid|Overdue=Overdue|Cancelled=Cancelled|All=All|noInv=No invoices yet.|noInvD=Your invoices will appear here when you create and save one.|first=Create Your First Invoice|search=Search invoice number, customer, business|save=Save Invoice|print=Print Invoice|pdf=Download PDF|wa=Share via WhatsApp|copy=Copy Invoice Summary|share=Share Invoice|del=Delete|edit=Edit|dup=Duplicate|view=View|markPaid=Mark as Paid|cancel=Cancel|prev=Preview Invoice|savedCalcs=Saved calculations|noCalcs=No saved calculations yet.|load=Load|taxNote=Tax is optional. Enter the rate applicable to your transaction. Currency changes the label only; no conversion happens.|storeErr=Storage unavailable: your work is kept for this session only.|tSaved=Invoice saved|tCalc=Calculation saved|tCopied=Copied to clipboard|tDel=Invoice deleted|tPaid=Marked as paid|tErr=Add at least one item with a price first.|tPdf=In the print window, choose “Save as PDF”.|bizD=Business details|bizN=Edit your business details in the invoice editor, then save them once.|editBiz=Edit business details|pref=Invoice preferences|saveSet=Save settings|data=Your data|exp=Export My Data|imp=Import My Data|wipe=Clear All My Data|custD=Customer|payD=Payment information|invD=Invoice details|bn=Business name|on=Owner name|em=Email|ph=Phone|ad=Address|web=Website|reg=Registration details (optional)|saveBiz=Save My Business Details|logo=Upload logo|rmLogo=Remove logo|cn=Customer full name|cc=Customer / company|cr=Customer reference|no=Invoice number|dt=Invoice date|du=Due date|stt=Status|cur=Currency|pm=Payment method|bk=Bank name|an=Account name|ac=Account number|mm=Mobile Money number|pr=Payment reference|pi=Payment instructions|nt=Notes|pfx=Invoice prefix|terms=Payment terms (days)|dtax=Default tax %|ddisc=Default discount %|dcur=Default currency|app=Appearance|noRes=No invoices match.|ok=OK|close=Close|confClear=Clear the current calculation?|confDel=Delete this invoice?|confWipe=This deletes all locally saved invoices and settings from this browser. Continue?|confImp=Replace your current data with the imported file?|thanks=Thank you for your business.|billTo=Bill to|date=Date|due=Due|pct=Percent %|fix=Fixed amount|invalid=Invalid or unsupported file.|big=File must be a PNG, JPG, WebP or SVG under 400 KB.|dupNo=This invoice number is already used.|saved2=Settings saved|bizS=Business details saved|imported=Data imported|wiped=All data cleared|signIn=Sign in|account=Account|acct=Your account|signOut=Sign out|signedIn=Signed in|signedOut=Signed out|gg=Continue with Google|orEm=or use email|pw=Password|mkAcct=Create account|forgot=Forgot password?|resetSent=Password reset email sent|needEm=Enter your email first.|acctSync=Your invoices, calculations and business details are saved to your account and stay available on any device you sign in on. Signing out removes the copy on this device.|noCfg=Sign-in is not set up in this copy yet. The site owner needs to add their Firebase settings (FIREBASE_CONFIG in index.html) and enable Google and Email/Password sign-in.|syncErr=Could not sync with your account. Your changes are saved on this device.|confWipeCloud=Your account's saved records will be deleted too.|syncOn=Signed in: your invoices sync to your account.|syncOff=Sign in to keep your invoices in your account and use them on any device.|dNoteOff=Without signing in, data stays in this browser only (LocalStorage) and clearing browser data can remove it. Export a backup of important invoices.|dNoteOn=You are signed in. Your records are saved in your account and cached on this device. Export a backup if you like.|impGuest=Add the {n} invoice(s) saved on this device to your account?`,
+rw:`nHome=Ahabanza|nCalc=Kubara|nInv=Fagitire zanjye|nTools=Ibikoresho|nSet=Igenamiterere|newInv=Fagitire nshya|hT=Ubucuruzi bwawe. Ibiciro byawe. Fagitire yawe.|hS=Nta bibazo bya comptabilité. Kubara byoroshye kandi neza.|start=Tangira kubara|create=Kora fagitire|f1=Kubara vuba|f2=Fagitire z'umwuga|f3=Nta gutegura bigoye|f4=Ikora kuri telefone|calcT=Ikibaza cya fagitire|calcS=Bara ibicuruzwa, serivisi, igabanyirizwa n'igiteranyo.|addItem=Ongeraho ikintu|clear=Siba byose|reset=Tangira bundi bushya|saveCalc=Bika ibarwa|printSum=Isohora incamake|desc=Ibisobanuro|qty=Ingano|price=Igiciro kimwe|amount=Amafaranga|items=Ibintu|sub=Igiteranyo gito|disc=Igabanyirizwa|tax=Umusoro|taxRate=Igipimo cy'umusoro|taxAmt=Amafaranga y'umusoro|total=IGITERANYO|Draft=Inyandiko|Unpaid=Itishyuwe|Paid=Yishyuwe|Overdue=Yarengeje igihe|Cancelled=Yahagaritswe|All=Byose|noInv=Nta fagitire zirahari.|noInvD=Fagitire zawe zizagaragara hano nuzibika.|first=Kora fagitire yawe ya mbere|search=Shakisha nimero, umukiriya, ubucuruzi|save=Bika fagitire|print=Isohora fagitire|pdf=Manura PDF|wa=Ohereza kuri WhatsApp|copy=Koporora incamake|share=Sangiza fagitire|del=Siba|edit=Hindura|dup=Kopora|view=Reba|markPaid=Yishyuwe|cancel=Bireke|prev=Reba fagitire|tSaved=Fagitire yabitswe|tCalc=Ibarwa ryabitswe|tCopied=Byakoporowe|tDel=Fagitire yasibwe|tPaid=Yashyizwe nk'iyishyuwe|tErr=Banza wongere ikintu gifite igiciro.|saveSet=Bika igenamiterere|bizD=Amakuru y'ubucuruzi|custD=Umukiriya|payD=Uburyo bwo kwishyura|invD=Amakuru ya fagitire|noRes=Nta fagitire zibonetse.|thanks=Murakoze ku bufatanye.`,
+fr:`nHome=Accueil|nCalc=Calculateur|nInv=Mes factures|nTools=Outils|nSet=Paramètres|newInv=Nouvelle facture|hT=Votre entreprise. Vos prix. Votre facture.|hD=Créez des factures professionnelles, calculez vos coûts, ajoutez remises et taxes, en un seul espace simple.|hS=Pas de comptabilité compliquée. Juste des calculs simples et précis.|start=Commencer le calcul|create=Créer une facture|f1=Calculs rapides|f2=Factures professionnelles|f3=Aucune configuration|f4=Adapté au mobile|calcT=Calculateur de facture|calcS=Calculez vos produits, services, remises et total final.|addItem=Ajouter un article|clear=Vider le calculateur|reset=Réinitialiser|saveCalc=Enregistrer le calcul|printSum=Imprimer le résumé|desc=Description|qty=Quantité|price=Prix unitaire|amount=Montant|items=Articles|sub=Sous-total|disc=Remise|tax=Taxe|taxRate=Taux de taxe|taxAmt=Montant de la taxe|total=TOTAL|Draft=Brouillon|Unpaid=Impayée|Paid=Payée|Overdue=En retard|Cancelled=Annulée|All=Toutes|noInv=Aucune facture.|noInvD=Vos factures apparaîtront ici après enregistrement.|first=Créez votre première facture|search=Rechercher numéro, client, entreprise|save=Enregistrer la facture|print=Imprimer la facture|pdf=Télécharger le PDF|wa=Partager sur WhatsApp|copy=Copier le résumé|share=Partager la facture|del=Supprimer|edit=Modifier|dup=Dupliquer|view=Voir|markPaid=Marquer payée|cancel=Annuler|prev=Aperçu de la facture|tSaved=Facture enregistrée|tCalc=Calcul enregistré|tCopied=Copié|tDel=Facture supprimée|tPaid=Marquée comme payée|tErr=Ajoutez d'abord un article avec un prix.|saveSet=Enregistrer les paramètres|bizD=Informations de l'entreprise|custD=Client|payD=Informations de paiement|invD=Détails de la facture|noRes=Aucune facture trouvée.|thanks=Merci pour votre confiance.`,
+sw:`nHome=Mwanzo|nCalc=Kikokotoo|nInv=Ankara zangu|nTools=Zana|nSet=Mipangilio|newInv=Ankara mpya|hT=Biashara yako. Bei zako. Ankara yako.|hS=Hakuna uhasibu mgumu. Hesabu rahisi na sahihi tu.|start=Anza kuhesabu|create=Tengeneza ankara|f1=Hesabu za haraka|f2=Ankara za kitaalamu|f3=Hakuna usanidi mgumu|f4=Rafiki kwa simu|calcT=Kikokotoo cha ankara|calcS=Hesabu bidhaa, huduma, punguzo na jumla ya mwisho.|addItem=Ongeza bidhaa|clear=Futa kikokotoo|reset=Weka upya|saveCalc=Hifadhi hesabu|printSum=Chapisha muhtasari|desc=Maelezo|qty=Kiasi|price=Bei ya kila moja|amount=Kiasi cha pesa|items=Vitu|sub=Jumla ndogo|disc=Punguzo|tax=Kodi|taxRate=Kiwango cha kodi|taxAmt=Kiasi cha kodi|total=JUMLA|Draft=Rasimu|Unpaid=Haijalipwa|Paid=Imelipwa|Overdue=Imechelewa|Cancelled=Imeghairiwa|All=Zote|noInv=Hakuna ankara bado.|noInvD=Ankara zako zitaonekana hapa ukizihifadhi.|first=Tengeneza ankara yako ya kwanza|search=Tafuta nambari, mteja, biashara|save=Hifadhi ankara|print=Chapisha ankara|pdf=Pakua PDF|wa=Tuma kwa WhatsApp|copy=Nakili muhtasari|share=Shiriki ankara|del=Futa|edit=Hariri|dup=Nakili|view=Tazama|markPaid=Weka imelipwa|cancel=Ghairi|prev=Hakiki ankara|tSaved=Ankara imehifadhiwa|tCalc=Hesabu imehifadhiwa|tCopied=Imenakiliwa|tDel=Ankara imefutwa|tPaid=Imewekwa kama imelipwa|tErr=Ongeza kwanza bidhaa yenye bei.|saveSet=Hifadhi mipangilio|bizD=Taarifa za biashara|custD=Mteja|payD=Taarifa za malipo|invD=Maelezo ya ankara|noRes=Hakuna ankara zilizopatikana.|thanks=Asante kwa biashara yako.`};
+const TR={};for(const l in PK){TR[l]={};PK[l].split('|').forEach(p=>{const i=p.indexOf('=');TR[l][p.slice(0,i)]=p.slice(i+1)})}
+const t=k=>(TR[ST.lang]&&TR[ST.lang][k])??TR.en[k]??k;
+/* ---------- helpers ---------- */
+const CURS={RWF:'Rwanda Franc',USD:'US Dollar',EUR:'Euro',GBP:'British Pound',KES:'Kenyan Shilling',UGX:'Ugandan Shilling',TZS:'Tanzanian Shilling',ZAR:'South African Rand',AED:'UAE Dirham',CAD:'Canadian Dollar',AUD:'Australian Dollar',NGN:'Nigerian Naira',GHS:'Ghanaian Cedi',XAF:'Central African CFA Franc',XOF:'West African CFA Franc',INR:'Indian Rupee',CNY:'Chinese Yuan'};
+const STAT=['Draft','Unpaid','Paid','Overdue','Cancelled'],PAYM=['Bank transfer','Mobile Money','Cash','Card','Other'];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=v=>{const x=parseFloat(v);return isFinite(x)&&x>0?x:0};
+const r2=n=>Math.round((n+Number.EPSILON)*100)/100;
+const fn=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(r2(n));
+const fm=(n,c)=>fn(n)+' '+c;
+const lt=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4);
+const today=()=>lt().toISOString().slice(0,10);
+const addDays=n=>{const d=lt();d.setDate(d.getDate()+num(n));return d.toISOString().slice(0,10)};
+const clone=o=>JSON.parse(JSON.stringify(o));
+const est=o=>o.status=='Unpaid'&&o.due&&o.due<today()?'Overdue':o.status;
+const badge=s=>`<span class="bdg s-${s}">${{Paid:'✓',Unpaid:'●',Overdue:'!',Draft:'✎',Cancelled:'✕'}[s]} ${t(s)}</span>`;
+function calcT(o){const sub=r2(o.items.reduce((a,i)=>a+r2(num(i.q)*num(i.p)),0));let d=0;if(o.disc.on){const v=num(o.disc.val);d=o.disc.type=='pct'?sub*Math.min(v,100)/100:v}d=r2(Math.min(d,sub));const af=r2(sub-d),tr=o.tax.on?num(o.tax.rate):0,tax=r2(af*tr/100);return{sub,d,af,tr,tax,total:r2(af+tax),n:o.items.filter(i=>i.d||num(i.p)).length}}
+/* ---------- state ---------- */
+let ST=Object.assign({cur:'RWF',theme:'light',lang:'en',prefix:'IKZ-INV',terms:14,tax:0,disc:0},ld(K.set,{}));
+let B=Object.assign({name:'',owner:'',email:'',phone:'',addr:'',web:'',reg:'',logo:''},ld(K.biz,{}));
+const newDoc=()=>({id:null,no:'',date:today(),due:addDays(ST.terms),status:'Unpaid',cur:ST.cur,items:[{d:'',q:1,p:''}],disc:{on:ST.disc>0,type:'pct',val:ST.disc||''},tax:{on:ST.tax>0,rate:ST.tax||''},cust:{name:'',co:'',email:'',phone:'',addr:'',ref:''},pay:{method:'Bank transfer',bank:'',acc:'',num:'',mm:'',ref:'',ins:''},notes:''});
+let S=ld(K.draft,null);if(!S||!Array.isArray(S.items)||!S.items.length)S=newDoc();
+function nextNo(){const y=lt().getFullYear(),L=ld(K.inv,[]),used=new Set(L.map(i=>i.no)),re=new RegExp('^'+ST.prefix.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'-'+y+'-(\\d+)$');let n=Math.max(0,...L.map(i=>{const m=re.exec(i.no);return m?+m[1]:0}))+1,no;do{no=`${ST.prefix}-${y}-${String(n++).padStart(3,'0')}`}while(used.has(no));return no}
+const ensureNo=()=>{if(!S.no)S.no=nextNo()};
+const getp=p=>p.split('.').reduce((o,k)=>o?.[k],p.startsWith('biz.')?{biz:B}:S);
+const setp=(p,v)=>{const a=p.split('.'),l=a.pop(),o=a.reduce((x,k)=>x[k],p.startsWith('biz.')?{biz:B}:S);o[l]=v};
+/* ---------- ui helpers ---------- */
+function toast(m,e){const d=document.createElement('div');d.className='toast'+(e?' e':'');d.textContent=(e?'⚠ ':'✓ ')+m;$('#toasts').append(d);setTimeout(()=>d.remove(),3200)}
+const dlg=$('#dlg');
+function ask(msg,ok){return new Promise(r=>{dlg.innerHTML=`<form method="dialog"><p>${msg}</p><div class="ac"><button class="btn" value="0">${t('cancel')}</button><button class="btn d" value="1" autofocus>${ok||t('ok')}</button></div></form>`;dlg.onclose=()=>r(dlg.returnValue=='1');dlg.returnValue='';dlg.showModal()})}
+function showHTML(h){dlg.innerHTML=`<form method="dialog">${h}<div class="ac"><button class="btn p" value="0" autofocus>${t('close')}</button></div></form>`;dlg.onclose=null;dlg.showModal()}
+const saveDraft=()=>sv(K.draft,S);
+/* ---------- forms ---------- */
+const F=(p,l,ty='text',x='',c='')=>`<label class="${c}"><span>${t(l)}</span><input data-s="${p}" type="${ty}" ${x}></label>`;
+const SEL=(p,l,o,lab)=>`<label><span>${t(l)}</span><select data-s="${p}">${o.map(v=>`<option value="${v}">${lab?lab(v):v}</option>`).join('')}</select></label>`;
+const curOpts=v=>`${v} — ${CURS[v]}`;
+const CTL=()=>`${SEL('cur','cur',Object.keys(CURS),curOpts)}<div><label class="ck"><input type="checkbox" data-s="disc.on">${t('disc')}</label><div class="g2" style="margin-top:6px"><select data-s="disc.type" aria-label="${t('disc')}"><option value="pct">${t('pct')}</option><option value="fix">${t('fix')}</option></select><input data-s="disc.val" type="number" min="0" step="any" inputmode="decimal" aria-label="${t('disc')}"></div></div><div><label class="ck"><input type="checkbox" data-s="tax.on">${t('tax')}</label><div class="g2" style="margin-top:6px"><input data-s="tax.rate" type="number" min="0" step="any" inputmode="decimal" aria-label="${t('taxRate')}"><b>%</b></div></div>`;
+const SUM=()=>[['items','n'],['sub','sub'],['disc','disc'],['taxRate','tr'],['taxAmt','tax']].map(([l,o])=>`<div><span>${t(l)}</span><b data-o="${o}"></b></div>`).join('')+`<div class="tt"><span><b style="font-size:14px;color:var(--tx)">${t('total')}</b></span><b data-o="total"></b></div>`;
+function build(){
+$$('.ctl').forEach(e=>e.innerHTML=CTL());$$('.sum').forEach(e=>e.innerHTML=SUM());
+$('#ed').innerHTML=`<div class="card"><h3>${t('invD')}</h3><div class="fg" style="margin-top:10px">${F('no','no')}${SEL('status','stt',STAT,t)}${F('date','dt','date')}${F('due','du','date')}</div></div>
+<div class="card"><h3>${t('bizD')}</h3><div class="fg" style="margin-top:10px">${F('biz.name','bn')}${F('biz.owner','on')}${F('biz.email','em','email')}${F('biz.phone','ph','tel')}${F('biz.addr','ad','text','','full')}${F('biz.web','web','text')}${F('biz.reg','reg')}</div>
+<div class="lgp" style="margin-top:12px">${B.logo?`<img src="${B.logo}" alt="Logo">`:''}<button class="btn s" data-act="logo">${t('logo')}</button>${B.logo?`<button class="btn s" data-act="rmLogo">${t('rmLogo')}</button>`:''}<input type="file" id="lgf" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden></div>
+<button class="btn g" style="margin-top:12px" data-act="saveBiz">${t('saveBiz')}</button></div>
+<div class="card"><h3>${t('custD')}</h3><div class="fg" style="margin-top:10px">${F('cust.name','cn')}${F('cust.co','cc')}${F('cust.email','em','email')}${F('cust.phone','ph','tel')}${F('cust.addr','ad')}${F('cust.ref','cr')}</div></div>
+<div class="card"><h3>${t('items')}</h3><div style="margin-top:10px"><div class="row h"><span>${t('desc')}</span><span>${t('qty')}</span><span>${t('price')}</span><span class="amt">${t('amount')}</span><span></span></div><div id="r2"></div><button class="btn" data-act="add">＋ ${t('addItem')}</button></div><div class="ctl">${CTL()}</div><div class="sum" style="margin-top:14px">${SUM()}</div></div>
+<div class="card"><h3>${t('payD')}</h3><div class="fg" style="margin-top:10px">${SEL('pay.method','pm',PAYM)}${F('pay.bank','bk')}${F('pay.acc','an')}${F('pay.num','ac')}${F('pay.mm','mm','tel')}${F('pay.ref','pr')}<label class="full"><span>${t('pi')}</span><textarea data-s="pay.ins"></textarea></label><label class="full"><span>${t('nt')}</span><textarea data-s="notes"></textarea></label></div></div>`;
+$('#pf').innerHTML=`<label><span>${t('pfx')}</span><input id="s-prefix"></label><label><span>${t('terms')}</span><input id="s-terms" type="number" min="0"></label><label><span>${t('dtax')}</span><input id="s-tax" type="number" min="0" step="any"></label><label><span>${t('ddisc')}</span><input id="s-disc" type="number" min="0" max="100" step="any"></label><label><span>${t('dcur')}</span><select id="s-cur">${Object.keys(CURS).map(c=>`<option>${c}</option>`).join('')}</select></label>`;
+$('#s-prefix').value=ST.prefix;$('#s-terms').value=ST.terms;$('#s-tax').value=ST.tax;$('#s-disc').value=ST.disc;$('#s-cur').value=ST.cur;
+$('#fl').innerHTML=['All',...STAT].map(s=>`<button data-f="${s}" class="${s==flt?'on':''}">${t(s)}</button>`).join('');
+$('#tl').innerHTML=TL.map((x,i)=>`<div class="card" data-t="${i}"><h3>${x[0]}</h3>${x[1].map(([id,l])=>`<label>${l}<input type="number" min="0" step="any" inputmode="decimal" data-ti="${id}"></label>`).join('')}<div class="out" aria-live="polite"></div></div>`).join('');
+}
+function syncFields(){$$('[data-s]').forEach(e=>{if(e===document.activeElement)return;const v=getp(e.dataset.s);if(e.type=='checkbox')e.checked=!!v;else e.value=v??''})}
+function rows(id){const e=$(id);if(!e)return;e.innerHTML=S.items.map((it,i)=>`<div class="row" data-i="${i}"><input class="d" data-f="d" placeholder="${t('desc')}" aria-label="${t('desc')}" value="${esc(it.d)}"><input data-f="q" type="number" min="0" step="any" inputmode="decimal" aria-label="${t('qty')}" value="${esc(it.q)}"><input data-f="p" type="number" min="0" step="any" inputmode="decimal" aria-label="${t('price')}" placeholder="0" value="${esc(it.p)}"><b class="amt">${fn(num(it.q)*num(it.p))}</b><span class="rb"><button data-x="dup" aria-label="${t('dup')}" title="${t('dup')}">⧉</button><button data-x="del" aria-label="${t('del')}" title="${t('del')}">✕</button></span></div>`).join('')}
+function upd(){const T=calcT(S),c=S.cur;const V={n:T.n,sub:fm(T.sub,c),disc:T.d?'− '+fm(T.d,c):fm(0,c),tr:fn(T.tr)+'%',tax:fm(T.tax,c),total:fm(T.total,c)};$$('[data-o]').forEach(e=>e.textContent=V[e.dataset.o]);$('#pv').innerHTML=sheet(S);syncFields();saveDraft()}
+function syncAll(){rows('#r1');rows('#r2');upd()}
+/* ---------- invoice sheet / print / share ---------- */
+function sheet(o){const T=calcT(o),b=o.biz||B,c=o.cust,p=o.pay,cu=o.cur,L=(a)=>a.filter(Boolean).map(esc).join('<br>');
+const pl=[p.method&&`${t('pm')}: ${p.method}`,p.bank&&`${t('bk')}: ${p.bank}`,p.acc&&`${t('an')}: ${p.acc}`,p.num&&`${t('ac')}: ${p.num}`,p.mm&&`${t('mm')}: ${p.mm}`,p.ref&&`${t('pr')}: ${p.ref}`,p.ins];
+return `<div class="sheet"><div class="s1"><div>${b.logo?`<img class="lg" src="${b.logo}" alt="">`:''}<h2>${esc(b.name)||'Your Business'}</h2><p>${L([b.owner,b.email,b.phone,b.addr,b.web,b.reg])}</p></div><div class="r"><h1>INVOICE</h1><p><b>${esc(o.no)}</b><br>${t('date')}: ${esc(o.date)}<br>${t('due')}: ${esc(o.due)||'—'}<br>${t('stt')}: ${t(est(o))}</p></div></div>
+<p style="margin-top:14px"><small>${t('billTo').toUpperCase()}</small><br><b>${esc(c.name||c.co)||'—'}</b>${c.name&&c.co?'<br>'+esc(c.co):''}<br>${L([c.email,c.phone,c.addr,c.ref&&'Ref: '+c.ref])}</p>
+<table><thead><tr><th>${t('desc')}</th><th class="n">${t('qty')}</th><th class="n">${t('price')}</th><th class="n">${t('amount')}</th></tr></thead><tbody>${o.items.filter(i=>i.d||num(i.p)).map(i=>`<tr><td>${esc(i.d)||'—'}</td><td class="n">${fn(num(i.q))}</td><td class="n">${fn(num(i.p))}</td><td class="n">${fn(num(i.q)*num(i.p))}</td></tr>`).join('')||'<tr><td colspan="4" style="text-align:center;color:#758398">—</td></tr>'}</tbody></table>
+<div class="tots"><div><span>${t('sub')}</span><span>${fm(T.sub,cu)}</span></div>${T.d?`<div><span>${t('disc')}${o.disc.type=='pct'?' ('+fn(num(o.disc.val))+'%)':''}</span><span>− ${fm(T.d,cu)}</span></div>`:''}${T.tr?`<div><span>${t('tax')} (${fn(T.tr)}%)</span><span>${fm(T.tax,cu)}</span></div>`:''}<div class="gt"><span>${t('total')}</span><span>${fm(T.total,cu)}</span></div></div>
+${pl.some(Boolean)?`<p style="margin-top:14px"><small>${t('payD').toUpperCase()}</small><br>${L(pl)}</p>`:''}${o.notes?`<p style="margin-top:10px">${esc(o.notes)}</p>`:''}
+<p style="margin-top:16px"><b>${t('thanks')}</b></p><div class="ft">Generated with IKAZE INVOICE · Designed &amp; Developed by IKAZE DIGITAL</div></div>`}
+function doPrint(h){$('#pa').innerHTML=h;setTimeout(()=>window.print(),60)}
+function sumHTML(o){const T=calcT(o),c=o.cur;return `<div class="sheet"><h2>IKAZE INVOICE — ${t('printSum')}</h2><p>${esc(o.date)} · ${c}</p><table><thead><tr><th>${t('desc')}</th><th class="n">${t('qty')}</th><th class="n">${t('price')}</th><th class="n">${t('amount')}</th></tr></thead><tbody>${o.items.filter(i=>i.d||num(i.p)).map(i=>`<tr><td>${esc(i.d)||'—'}</td><td class="n">${fn(num(i.q))}</td><td class="n">${fn(num(i.p))}</td><td class="n">${fn(num(i.q)*num(i.p))}</td></tr>`).join('')}</tbody></table><div class="tots"><div><span>${t('sub')}</span><span>${fm(T.sub,c)}</span></div><div><span>${t('disc')}</span><span>− ${fm(T.d,c)}</span></div><div><span>${t('tax')} (${fn(T.tr)}%)</span><span>${fm(T.tax,c)}</span></div><div class="gt"><span>${t('total')}</span><span>${fm(T.total,c)}</span></div></div><div class="ft">Designed &amp; Developed by IKAZE DIGITAL</div></div>`}
+function shareTxt(o){const T=calcT(o),c=o.cur,b=o.biz||B,p=o.pay;return [`*${b.name||'Invoice'}*`,`${t('no')}: ${o.no}`,`${t('cn')}: ${o.cust.name||o.cust.co||'—'}`,'',...o.items.filter(i=>i.d||num(i.p)).map(i=>`• ${i.d||'—'}: ${fn(num(i.q))} × ${fn(num(i.p))} = ${fm(num(i.q)*num(i.p),c)}`),'',`${t('sub')}: ${fm(T.sub,c)}`,T.d?`${t('disc')}: −${fm(T.d,c)}`:'',T.tr?`${t('tax')} (${fn(T.tr)}%): ${fm(T.tax,c)}`:'',`*${t('total')}: ${fm(T.total,c)}*`,o.due?`${t('due')}: ${o.due}`:'',p.method?`${t('pm')}: ${p.method}`:'',p.bank?`${t('bk')}: ${p.bank}`:'',p.acc?`${t('an')}: ${p.acc}`:'',p.num?`${t('ac')}: ${p.num}`:'',p.mm?`${t('mm')}: ${p.mm}`:'',p.ins||''].filter((x,i,a)=>x!==''||a[i-1]!=='').join('\n')}
+async function copyTxt(x){try{await navigator.clipboard.writeText(x)}catch(e){const a=document.createElement('textarea');a.value=x;document.body.append(a);a.select();try{document.execCommand('copy')}catch(_){}a.remove()}toast(t('tCopied'))}
+async function doShare(o){const x=shareTxt(o);if(navigator.share){try{await navigator.share({title:o.no,text:x})}catch(e){}}else copyTxt(x)}
+const doWA=o=>window.open('https://wa.me/?text='+encodeURIComponent(shareTxt(o)),'_blank','noopener');
+/* ---------- invoices ---------- */
+function validDoc(o){return calcT(o).total>0||o.items.some(i=>num(i.p)>0)}
+function saveInv(){if(!validDoc(S))return toast(t('tErr'),1);ensureNo();const L=ld(K.inv,[]);if(L.some(i=>i.no==S.no&&i.id!=S.id))return toast(t('dupNo'),1);const o=clone(S);o.biz=clone(B);o.updated=Date.now();if(!o.id){o.id='i'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);S.id=o.id}const k=L.findIndex(i=>i.id==o.id);k>=0?L[k]=o:L.unshift(o);sv(K.inv,L);saveDraft();toast(t('tSaved'))}
+const findInv=id=>ld(K.inv,[]).find(i=>i.id==id);
+function openDoc(o){S=clone(o);if(o.biz)B=Object.assign(B,{});delete S.biz;go('inv');syncAll()}
+let flt='All';
+function grp(L){const m={};L.forEach(i=>m[i.cur]=(m[i.cur]||0)+calcT(i).total);const k=Object.keys(m);return k.length?k.map(c=>`<em>${fm(m[c],c)}</em>`).join(''):'<em>—</em>'}
+function renderList(){const L=ld(K.inv,[]),q=$('#q').value.trim().toLowerCase();const act=L.filter(i=>i.status!='Cancelled');
+const cards=[['nInv',`<b>${L.length}</b>`],['tVal',grp(act)],['Paid',`<b>${act.filter(i=>est(i)=='Paid').length}</b>`+grp(act.filter(i=>est(i)=='Paid'))],['Unpaid',`<b>${act.filter(i=>est(i)=='Unpaid').length}</b>`+grp(act.filter(i=>est(i)=='Unpaid'))],['Overdue',`<b>${act.filter(i=>est(i)=='Overdue').length}</b>`+grp(act.filter(i=>est(i)=='Overdue'))]];
+$('#stats').innerHTML=cards.map(([l,v])=>`<div class="card"><small>${l=='tVal'?'Total value':t(l)}</small>${v}</div>`).join('');
+$$('#fl button').forEach(b=>b.classList.toggle('on',b.dataset.f==flt));
+const R=L.filter(i=>(flt=='All'||est(i)==flt)&&(!q||[i.no,i.cust.name,i.cust.co,(i.biz||{}).name].join(' ').toLowerCase().includes(q)));
+if(!L.length){$('#lst').innerHTML=`<div class="empty"><div class="e">🧾</div><h3>${t('noInv')}</h3><p>${t('noInvD')}</p><button class="btn g" data-act="newDoc">${t('first')}</button></div>`;return}
+if(!R.length){$('#lst').innerHTML=`<div class="empty"><div class="e">🔍</div><h3>${t('noRes')}</h3></div>`;return}
+$('#lst').innerHTML=`<table class="t"><thead><tr><th>${t('no')}</th><th>${t('custD')}</th><th>${t('date')}</th><th>${t('amount')}</th><th>${t('cur')}</th><th>${t('stt')}</th><th></th></tr></thead><tbody>${R.map(i=>`<tr data-id="${i.id}"><td><b>${esc(i.no)}</b></td><td>${esc(i.cust.name||i.cust.co)||'—'}</td><td>${esc(i.date)}</td><td><b>${fn(calcT(i).total)}</b></td><td>${i.cur}</td><td>${badge(est(i))}</td><td><div class="acts"><button class="btn s" data-r="view">${t('view')}</button><button class="btn s" data-r="edit">${t('edit')}</button><button class="btn s" data-r="dup">${t('dup')}</button><button class="btn s" data-r="pdf">PDF</button><button class="btn s" data-r="print">${t('print')}</button><button class="btn s" data-r="share">${t('share')}</button>${i.status!='Paid'&&i.status!='Cancelled'?`<button class="btn s g" data-r="paid">${t('markPaid')}</button>`:''}<button class="btn s d" data-r="del">${t('del')}</button></div></td></tr>`).join('')}</tbody></table>`}
+async function rowAct(a,id){const L=ld(K.inv,[]),o=L.find(i=>i.id==id);if(!o)return;
+if(a=='view')showHTML(sheet(o));
+else if(a=='edit')openDoc(o);
+else if(a=='dup'){const c=clone(o);c.id=null;c.no=nextNo();c.status='Draft';c.date=today();c.due=addDays(ST.terms);c.biz=clone(o.biz||B);c.id='i'+Date.now().toString(36);c.updated=Date.now();L.unshift(c);sv(K.inv,L);renderList();toast(t('tSaved'))}
+else if(a=='pdf'){toast(t('tPdf'));doPrint(sheet(o))}
+else if(a=='print')doPrint(sheet(o));
+else if(a=='share')doShare(o);
+else if(a=='paid'){o.status='Paid';sv(K.inv,L);renderList();toast(t('tPaid'))}
+else if(a=='del'&&await ask(t('confDel'),t('del'))){sv(K.inv,L.filter(i=>i.id!=id));renderList();toast(t('tDel'))}}
+function renderCalcs(){const L=ld(K.calcs,[]);$('#calcs').innerHTML=L.length?`<table class="t"><tbody>${L.map(c=>`<tr data-id="${c.id}"><td>${esc(c.date)}</td><td>${c.items.filter(i=>i.d||num(i.p)).length} ${t('items')}</td><td><b>${fm(calcT(c).total,c.cur)}</b></td><td><div class="acts"><button class="btn s" data-c="load">${t('load')}</button><button class="btn s d" data-c="del">${t('del')}</button></div></td></tr>`).join('')}</tbody></table>`:`<div class="empty"><div class="e">🧮</div><p>${t('noCalcs')}</p></div>`}
+/* ---------- smart tools ---------- */
+const TL=[['Quick Discount Calculator',[['a','Original price'],['b','Discount %']],v=>{const s=v.a*Math.min(v.b,100)/100;return `Saved ${fn(s)} → Pay ${fn(v.a-s)}`}],
+['Tax Calculator',[['a','Amount'],['b','Tax %']],v=>`Tax ${fn(v.a*v.b/100)} → Final ${fn(v.a+v.a*v.b/100)}`],
+['Quantity Calculator',[['a','Quantity'],['b','Unit price']],v=>`Total ${fn(v.a*v.b)}`],
+['Profit Calculator',[['a','Cost price'],['b','Selling price'],['c','Quantity']],v=>{const C=v.a*v.c,R=v.b*v.c,P=R-C;return `Cost ${fn(C)} · Revenue ${fn(R)}<br>Profit ${fn(P)} · Margin ${R?fn(P/R*100):'0'}%`}],
+['Split Bill Calculator',[['a','Amount'],['b','People'],['c','Tip %']],v=>{const tot=v.a*(1+v.c/100),n=Math.max(1,Math.floor(v.b)||1);return `Total ${fn(tot)} → ${fn(tot/n)} each (${n})`}]];
+function toolUpd(card){const x=TL[card.dataset.t],v={a:0,b:0,c:0};card.querySelectorAll('[data-ti]').forEach(i=>v[i.dataset.ti]=num(i.value));card.querySelector('.out').innerHTML=x[2](v)}
+/* ---------- navigation ---------- */
+function go(v){const m={home:'calc',calc:'calc',tools:'calc',inv:'inv',list:'list',set:'set',about:'set'}[v];$$('.view').forEach(e=>e.hidden=e.id!='v-'+m);if(m=='inv'){ensureNo();syncAll()}if(m=='list')renderList();if(m=='calc'){renderCalcs();syncAll()}
+const a={calc:'calc',tools:'tools',about:'about'}[v],el=a&&$('#'+a);el?el.scrollIntoView({behavior:'smooth'}):scrollTo({top:0});$$('nav button').forEach(b=>{b.classList.toggle('on',b.dataset.go==v);b.toggleAttribute('aria-current',b.dataset.go==v)})}
+function applyLang(){document.documentElement.lang=ST.lang;$$('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));$$('[data-ph]').forEach(e=>e.placeholder=t(e.dataset.ph));build();syncAll();renderList();renderCalcs();updateAcct()}
+function newDocGo(){S=newDoc();ensureNo();go('inv')}
+function hasData(){return S.items.some(i=>i.d||i.p)}
+/* ---------- events ---------- */
+document.addEventListener('click',async e=>{
+const g=e.target.closest('[data-go]');if(g)return go(g.dataset.go);
+const x=e.target.closest('[data-x]');if(x){const i=+x.closest('.row').dataset.i;if(x.dataset.x=='del'){S.items.splice(i,1);if(!S.items.length)S.items.push({d:'',q:1,p:''})}else S.items.splice(i+1,0,clone(S.items[i]));return syncAll()}
+const r=e.target.closest('[data-r]');if(r)return rowAct(r.dataset.r,r.closest('tr').dataset.id);
+const c=e.target.closest('[data-c]');if(c){const L=ld(K.calcs,[]),id=c.closest('tr').dataset.id,o=L.find(i=>i.id==id);if(c.dataset.c=='load'&&o){Object.assign(S,clone(o),{id:null,no:S.no});syncAll();toast(t('load')+' ✓')}else{sv(K.calcs,L.filter(i=>i.id!=id));renderCalcs()}return}
+const f=e.target.closest('[data-f]');if(f&&f.closest('#fl')){flt=f.dataset.f;return renderList()}
+const a=e.target.closest('[data-act]');if(!a)return;const A=a.dataset.act;
+if(A=='add'){S.items.push({d:'',q:1,p:''});syncAll();const L=$$('.row .d');L[L.length-1]?.focus()}
+else if(A=='clear'){if(!hasData()||await ask(t('confClear'),t('clear'))){S.items=[{d:'',q:1,p:''}];syncAll()}}
+else if(A=='reset'){if(!hasData()||await ask(t('confClear'),t('reset'))){S=newDoc();syncAll()}}
+else if(A=='toInv'){go('inv')}
+else if(A=='saveCalc'){if(!validDoc(S))return toast(t('tErr'),1);const L=ld(K.calcs,[]);L.unshift({id:'c'+Date.now().toString(36),date:today(),cur:S.cur,items:clone(S.items),disc:clone(S.disc),tax:clone(S.tax)});sv(K.calcs,L);renderCalcs();toast(t('tCalc'))}
+else if(A=='printSum')doPrint(sumHTML(S));
+else if(A=='saveInv')saveInv();
+else if(A=='pdf'){toast(t('tPdf'));doPrint(sheet(S))}
+else if(A=='printInv')doPrint(sheet(S));
+else if(A=='wa')doWA(S);else if(A=='copy')copyTxt(shareTxt(S));else if(A=='share')doShare(S);
+else if(A=='newDoc')newDocGo();
+else if(A=='logo')$('#lgf').click();
+else if(A=='rmLogo'){B.logo='';build();syncAll()}
+else if(A=='saveBiz'){sv(K.biz,B);toast(t('bizS'))}
+else if(A=='toBiz'){go('inv');setTimeout(()=>$('[data-s="biz.name"]')?.focus(),50)}
+else if(A=='savePref'){ST.prefix=($('#s-prefix').value.trim()||'IKZ-INV');ST.terms=num($('#s-terms').value);ST.tax=Math.min(num($('#s-tax').value),100);ST.disc=Math.min(num($('#s-disc').value),100);ST.cur=$('#s-cur').value;sv(K.set,ST);toast(t('saved2'))}
+else if(A=='exp'){const b=new Blob([JSON.stringify({app:'ikaze-invoice',v:1,invoices:ld(K.inv,[]),business:B,settings:ST,calcs:ld(K.calcs,[])},null,2)],{type:'application/json'}),u=URL.createObjectURL(b),l=document.createElement('a');l.href=u;l.download='ikaze-invoice-backup-'+today()+'.json';l.click();setTimeout(()=>URL.revokeObjectURL(u),500)}
+else if(A=='imp')$('#impf').click();
+else if(A=='wipe'&&await ask(t('confWipe')+(user?' '+t('confWipeCloud'):''),t('wipe'))){cloudWipe();Object.values(K).forEach(rm);ST=Object.assign({cur:'RWF',theme:'light',lang:'en',prefix:'IKZ-INV',terms:14,tax:0,disc:0});B={name:'',owner:'',email:'',phone:'',addr:'',web:'',reg:'',logo:''};S=newDoc();document.body.dataset.th='light';$('#lang').value='en';applyLang();toast(t('wiped'))}});
+document.addEventListener('input',e=>{const el=e.target;
+if(el.dataset.ti)return toolUpd(el.closest('[data-t]'));
+if(el.id=='q')return renderList();
+if(el.matches('.row input')){const i=+el.closest('.row').dataset.i,f=el.dataset.f;if(el.type=='number'&&el.value!==''&&+el.value<0)el.value=0;S.items[i][f]=el.value;el.closest('.row').querySelector('.amt').textContent=fn(num(S.items[i].q)*num(S.items[i].p));return upd()}
+if(el.dataset.s){let v=el.type=='checkbox'?el.checked:el.value;if(el.type=='number'&&v!==''&&+v<0)v=el.value=0;setp(el.dataset.s,v);upd()}});
+document.addEventListener('change',e=>{const el=e.target;
+if(el.dataset.s=='cur'||el.dataset.s=='disc.type'||el.dataset.s=='disc.val'){if(S.disc.type=='pct'&&num(S.disc.val)>100){S.disc.val=100;toast('Max 100%',1)}syncFields();upd()}
+if(el.id=='lgf'){const f=el.files[0];if(!f)return;if(!/^image\/(png|jpeg|webp|svg\+xml)$/.test(f.type)||f.size>4e5)return toast(t('big'),1);const r=new FileReader();r.onload=()=>{B.logo=r.result;build();syncAll()};r.readAsDataURL(f)}
+if(el.id=='impf'){const f=el.files[0];el.value='';if(!f)return;const r=new FileReader();r.onload=async()=>{try{const d=JSON.parse(r.result);if(!d||d.app!='ikaze-invoice'||!Array.isArray(d.invoices)||d.invoices.some(i=>!i||typeof i.no!='string'||!Array.isArray(i.items)||!i.cust||!i.disc||!i.tax))throw 0;if(!await ask(t('confImp'),t('imp')))return;sv(K.inv,d.invoices);if(d.business&&typeof d.business=='object'){B=Object.assign(B,d.business);sv(K.biz,B)}if(d.settings&&typeof d.settings=='object'){ST=Object.assign(ST,d.settings);sv(K.set,ST)}sv(K.calcs,Array.isArray(d.calcs)?d.calcs:[]);document.body.dataset.th=ST.theme;$('#lang').value=ST.lang;applyLang();toast(t('imported'))}catch(x){toast(t('invalid'),1)}};r.readAsText(f)}});
+$('#lang').onchange=e=>{ST.lang=e.target.value;sv(K.set,ST);applyLang()};
+$('#th').onclick=()=>{ST.theme=ST.theme=='dark'?'light':'dark';document.body.dataset.th=ST.theme;sv(K.set,ST)};
+$('#nw').onclick=newDocGo;$('#nw2').onclick=newDocGo;
+$('#pvb').onclick=()=>$('#pvc').classList.toggle('show');
+/* ---------- accounts: Firebase Auth (Google + email) and Firestore sync ---------- */
+// Paste your Firebase web app settings here (Firebase console > Project settings > Your apps).
+const FIREBASE_CONFIG={apiKey:'',authDomain:'',projectId:'',appId:''};
+let user=null,auth=null,db=null,syncing=false,cache={inv:{},calcs:{}};
+try{if(window.firebase&&FIREBASE_CONFIG.apiKey){firebase.initializeApp(FIREBASE_CONFIG);auth=firebase.auth();db=firebase.firestore()}}catch(e){console.warn('Firebase unavailable',e);auth=db=null}
+const cloudOk=()=>!!(auth&&db);
+const uref=()=>db.collection('users').doc(user.uid);
+const fail=e=>{console.error(e);toast(t('syncErr'),1)};
+function loadState(){ST=Object.assign({cur:'RWF',theme:'light',lang:'en',prefix:'IKZ-INV',terms:14,tax:0,disc:0},ld(K.set,{}));B=Object.assign({name:'',owner:'',email:'',phone:'',addr:'',web:'',reg:'',logo:''},ld(K.biz,{}));S=ld(K.draft,null);if(!S||!Array.isArray(S.items)||!S.items.length)S=newDoc();document.body.dataset.th=ST.theme;$('#lang').value=ST.lang}
+const meta=d=>uref().collection('meta').doc('profile').set(d,{merge:true}).catch(fail);
+function diffCol(name,list,ck){const c=cache[ck],col=uref().collection(name),seen={},b=db.batch();let n=0;
+list.forEach(i=>{const s=JSON.stringify(i);seen[i.id]=1;if(c[i.id]!==s){c[i.id]=s;b.set(col.doc(i.id),{json:s});n++}});
+Object.keys(c).forEach(id=>{if(!seen[id]){delete c[id];b.delete(col.doc(id));n++}});
+if(n)b.commit().catch(fail)}
+function cloudPush(k,v){if(!user||!db||syncing)return;if(k===K.inv)diffCol('invoices',v,'inv');else if(k===K.calcs)diffCol('calcs',v,'calcs');else if(k===K.biz)meta({business:v});else if(k===K.set)meta({settings:v})}
+async function cloudSync(){const col=n=>uref().collection(n),[iv,cs,pf]=await Promise.all([col('invoices').get(),col('calcs').get(),uref().collection('meta').doc('profile').get()]);
+cache={inv:{},calcs:{}};
+if(pf.exists){const rd=(s,ck)=>{const a=[];s.forEach(d=>{try{const o=JSON.parse(d.data().json);a.push(o);cache[ck][o.id]=d.data().json}catch(e){}});return a};
+const inv=rd(iv,'inv').sort((a,b)=>(b.updated||0)-(a.updated||0)),cal=rd(cs,'calcs').sort((a,b)=>a.id<b.id?1:-1),p=pf.data();
+syncing=true;sv(K.inv,inv);sv(K.calcs,cal);if(p.business){B=Object.assign(B,p.business);sv(K.biz,B)}if(p.settings){ST=Object.assign(ST,p.settings);sv(K.set,ST)}syncing=false}
+else{await meta({business:B,settings:ST});diffCol('invoices',ld(K.inv,[]),'inv');diffCol('calcs',ld(K.calcs,[]),'calcs')}}
+async function cloudWipe(){if(!user||!db)return;try{for(const n of['invoices','calcs']){const s=await uref().collection(n).get(),b=db.batch();s.forEach(d=>b.delete(d.ref));await b.commit()}await uref().collection('meta').doc('profile').delete();cache={inv:{},calcs:{}}}catch(e){fail(e)}}
+async function offerGuest(){const g=ld(BASE.inv,[]),fk='ikaze_invoice_imported:'+user.uid;if(!g.length||ld(fk,0))return;sv(fk,1);if(!await ask(t('impGuest').replace('{n}',g.length),t('ok')))return;
+const L=ld(K.inv,[]),ids=new Set(L.map(i=>i.id)),nos=new Set(L.map(i=>i.no)),add=g.filter(i=>!ids.has(i.id)).map(i=>nos.has(i.no)?Object.assign({},i,{no:i.no+'-G'}):i);
+const gb=ld(BASE.biz,null);if(gb&&!B.name&&gb.name){B=Object.assign(B,gb);sv(K.biz,B)}
+sv(K.inv,[...add,...L]);renderList();toast(t('imported'))}
+function updateAcct(){const a=$('#acct');a.innerHTML=user?`<span class="av">${esc((user.displayName||user.email||'?')[0].toUpperCase())}</span><span class="at">${t('account')}</span>`:`<span aria-hidden="true">👤</span><span class="at">${t('signIn')}</span>`;a.setAttribute('aria-label',user?t('account'):t('signIn'));$('#sn').textContent=user?t('syncOn'):t('syncOff');$('#dnote').textContent=user?t('dNoteOn'):t('dNoteOff')}
+function aerr(x){const m={'auth/invalid-credential':'Incorrect email or password.','auth/wrong-password':'Incorrect email or password.','auth/user-not-found':'Incorrect email or password.','auth/email-already-in-use':'An account with this email already exists. Try signing in.','auth/weak-password':'Use at least 6 characters.','auth/invalid-email':'Enter a valid email address.','auth/network-request-failed':'Network error. Check your connection.','auth/unauthorized-domain':'This domain is not listed under Authorized domains in Firebase Authentication.','auth/operation-not-allowed':'This sign-in method is not enabled in Firebase Authentication.','auth/too-many-requests':'Too many attempts. Try again later.','auth/operation-not-supported-in-this-environment':'Sign-in needs the page to be served over http(s), for example localhost or your hosting, not opened as a file.'};return m[x.code]||x.message||'Something went wrong.'}
+function acctDlg(){
+if(user){dlg.innerHTML=`<form method="dialog"><h3>${t('acct')}</h3><p>${esc(user.displayName||'')}<br><b>${esc(user.email||'')}</b></p><p class="note">${t('acctSync')}</p><div class="ac"><button class="btn" value="0">${t('close')}</button><button class="btn d" type="button" id="so">${t('signOut')}</button></div></form>`;dlg.onclose=null;dlg.showModal();
+$('#so').onclick=async()=>{Object.values(K).forEach(rm);dlg.close();try{await auth.signOut();toast(t('signedOut'))}catch(e){fail(e)}};return}
+if(!cloudOk())return showHTML(`<h3>${t('signIn')}</h3><p>${t('noCfg')}</p>`);
+let mode='in';
+dlg.innerHTML=`<div style="max-width:380px;margin:auto"><button type="button" class="btn s" id="cl" style="float:right" aria-label="${t('close')}">✕</button><h3 id="at">${t('signIn')}</h3><div class="stk" style="gap:10px;margin-top:12px"><button type="button" class="btn" id="gg">${t('gg')}</button><p class="note" style="text-align:center;margin:0">${t('orEm')}</p>
+<form id="af" class="stk" style="gap:10px"><label>${t('em')}<input id="ae" type="email" required autocomplete="email"></label><label>${t('pw')}<input id="ap" type="password" required minlength="6" autocomplete="current-password"></label><p class="note" id="am" role="alert" style="margin:0"></p><button class="btn p" id="go2">${t('signIn')}</button></form>
+<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><button type="button" class="btn s" id="fp">${t('forgot')}</button><button type="button" class="btn s" id="sw">${t('mkAcct')}</button></div></div></div>`;
+dlg.onclose=null;dlg.showModal();
+const msg=x=>$('#am').textContent=x,setMode=m=>{mode=m;$('#at').textContent=t(m=='up'?'mkAcct':'signIn');$('#go2').textContent=t(m=='up'?'mkAcct':'signIn');$('#sw').textContent=t(m=='up'?'signIn':'mkAcct');$('#ap').autocomplete=m=='up'?'new-password':'current-password';msg('')};
+const done=()=>{dlg.close();toast(t('signedIn'))};
+$('#cl').onclick=()=>dlg.close();$('#sw').onclick=()=>setMode(mode=='in'?'up':'in');
+$('#gg').onclick=async()=>{const p=new firebase.auth.GoogleAuthProvider();try{await auth.signInWithPopup(p);done()}catch(x){if(x.code=='auth/popup-blocked')auth.signInWithRedirect(p);else if(x.code!='auth/popup-closed-by-user'&&x.code!='auth/cancelled-popup-request')msg(aerr(x))}};
+$('#af').onsubmit=async ev=>{ev.preventDefault();const b=$('#go2'),e=$('#ae').value.trim(),p=$('#ap').value;b.disabled=true;try{mode=='up'?await auth.createUserWithEmailAndPassword(e,p):await auth.signInWithEmailAndPassword(e,p);done()}catch(x){msg(aerr(x))}b.disabled=false};
+$('#fp').onclick=async()=>{const e=$('#ae').value.trim();if(!e)return msg(t('needEm'));try{await auth.sendPasswordResetEmail(e);msg(t('resetSent'))}catch(x){msg(aerr(x))}}}
+$('#acct').onclick=acctDlg;
+if(cloudOk())auth.onAuthStateChanged(async u=>{user=u;ns(u?u.uid:'');loadState();applyLang();if(u){try{await cloudSync();loadState();applyLang();await offerGuest()}catch(e){fail(e)}}});
+/* ---------- init ---------- */
+document.body.dataset.th=ST.theme;$('#lang').value=ST.lang;$('#yr').textContent=lt().getFullYear();
+applyLang();
+/* ---------- dual-video crossfade background (0.5x, 2s crossfade) ---------- */
+(function(){const RATE=.5,vs=[$('#v1'),$('#v2')];let cur=vs[0],nxt=vs[1],fading=false;
+vs.forEach(v=>{v.muted=true;v.playbackRate=RATE;v.addEventListener('loadedmetadata',()=>{v.playbackRate=RATE})});
+if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+const play=v=>{v.playbackRate=RATE;const r=v.play();if(r&&r.catch)r.catch(()=>{})};
+play(cur);document.addEventListener('pointerdown',()=>{if(cur.paused&&!fading)play(cur)},{once:true});
+function loop(){const d=cur.duration;
+if(!fading&&d&&isFinite(d)&&(d-cur.currentTime)/cur.playbackRate<=2){fading=true;const a=cur,b=nxt;b.currentTime=0;b.playbackRate=RATE;play(b);b.style.opacity='1';a.style.opacity='0';
+setTimeout(()=>{a.pause();a.currentTime=0;cur=b;nxt=a;fading=false},2000)}
+requestAnimationFrame(loop)}
+requestAnimationFrame(loop)})();
+</script>
+</body>
+</html>
